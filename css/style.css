@@ -18,7 +18,7 @@ body {
   padding: 1em;
   width: 90%;
   min-height: 5em;
-  background-color: #cfcfcf;
+  background-color: #fff;
   font-size: 1rem;
 }
 .bcls-button {
@@ -36,4 +36,12 @@ fieldset {
 }
 a {
   color: RGB(207, 119, 63);
+}
+code {
+  color: #E4B842;
+  font-family: 'Source Code Pro',monospace;
+}
+
+.red {
+  color: #ff6600;
 }
