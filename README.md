@@ -1,4 +1,4 @@
-# 18561-cms-api-sample-generate-mrss-feed-itunes
+# iTune Podcast Feed Generator
 In this sample, you will learn how to use the CMS API to generate an RSS podcast feed for Apple iTunes.
 
 This repository contains all the code for your convenience:
