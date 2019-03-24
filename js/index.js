@@ -287,7 +287,8 @@ var BCLS = (function(window, document) {
    * @returns {String} date string in HH:MM:SS format
    */
   function millisecondsToTime(msecs) {
-    var secs = msecs / 1000,
+    var milliseconds = (isDefined(msecs)) ? msecs : 0,
+      secs = msecs / 1000,
       hours = Math.floor(secs / (60 * 60)),
       divisor_for_minutes = secs % (60 * 60),
       minutes = Math.floor(divisor_for_minutes / 60),
@@ -295,27 +296,41 @@ var BCLS = (function(window, document) {
       seconds = Math.ceil(divisor_for_seconds),
       str = '';
 
+    if (seconds === 60) {
+      minutes++;
+      seconds = 0;
+    }
+    if (minutes === 60) {
+      hours++;
+      minutes = 0;
+    }
+
     if (hours > 0) {
       if (hours < 10) {
-        hours = '0' + hours.toString();
+        hours = '0' + hours.toString() + ':';
       } else {
         str += hours.toString() + ':';
       }
+    } else {
+      str += '00:'
     }
 
     if (minutes > 0) {
       if (minutes < 10) {
-        minutes = '0' + minutes.toString();
+        str += '0' + minutes.toString() + ':';
       } else {
         str += minutes.toString() + ':';
       }
+    } else {
+      str += '00:'
     }
 
     if (seconds < 10) {
-      seconds = '0' + seconds.toString();
+      str += '0' + seconds.toString();
     } else {
       str += seconds.toString();
     }
+
     return str;
   }
 
@@ -343,23 +358,23 @@ var BCLS = (function(window, document) {
 
   function setPodcastData() {
     mrssStr += sChannel;
-    mrssStr += sTitle + podcast_title + eTitle;
-    mrssStr += sLink + podcast_url + eLink;
+    mrssStr += sTitle + sCdata + podcast_title = eCdata + eTitle;
+    mrssStr += sLink + sCdata + podcast_url + eCdata + eLink;
     mrssStr += sLanguage + language + eLanguage;
     mrssStr += sCopyright + sCdata + podcast_owner + ' year ' + eCdata + eCopyright;
     if (isDefined(podcast_subtitle)) {
       mrssStr += sSubTitle + sCdata + podcast_subtitle + eCdata + eSubTitle;
     }
-    mrssStr += sAuthor + podcast_author + eAuthor;
+    mrssStr += sAuthor + sCdata + podcast_author + eCdata + eAuthor;
     mrssStr += sSummary + sCdata + podcast_summary + eCdata + eSummary;
     mrssStr += sDescription + sCdata + podcast_description + eCdata + eDescription;
     mrssStr += sOwner;
-    mrssStr += sName + podcast_owner + eName;
-    mrssStr += sEmail + podcast_email + eEmail;
+    mrssStr += sName + sCdata + podcast_owner + eCdata + eName;
+    mrssStr += sEmail + sCdata + podcast_email+ eCdata + eEmail;
     mrssStr += eOwner;
-    mrssStr += sImage + podcast_image + eImage;
-    mrssStr += sPubDate + today + ePubDate;
-    mrssStr += sLastBuildDate + today + eLastBuildDate;
+    mrssStr += sImage + sCdata + podcast_image + eCdata + eImage;
+    mrssStr += sPubDate + sCdata + today + eCdata + ePubDate;
+    mrssStr += sLastBuildDate + sCdata + today + eCdata + eLastBuildDate;
     mrssStr += sCategory + category;
     if (isDefined(sub_category)) {
       mrssStr += eCategory1;
@@ -369,7 +384,7 @@ var BCLS = (function(window, document) {
       mrssStr += eCategory1 + eCategory;
     }
     if (isDefined(podcast_keywords)) {
-      mrssStr += sKeywords + podcast_keywords + eKeywords;
+      mrssStr += sKeywords + sCdata + podcast_keywords + eCdata + eKeywords;
     }
     mrssStr += sExplicit + explicit + eExplicit;
     mrssStr += sComplete + complete + eComplete;
@@ -521,6 +536,7 @@ var BCLS = (function(window, document) {
         mrssStr += sEnclosure + 'length="' + video.source.size + '" type="video/mp4" ' + 'url="' + video.source.src + '"' + eEnclosure;
         mrssStr += sGuid + guidInputs[i].value + eGuid;
         mrssStr += sPubDate + pubDate + ePubDate;
+        console.log('duration', millisecondsToTime(video.duration) );
         mrssStr += sDuration + millisecondsToTime(video.duration) + eDuration;
         mrssStr += sExplicit + explicit + eExplicit;
         mrssStr += sisClosedCaptioned + closed_captioned + eisClosedCaptioned;
